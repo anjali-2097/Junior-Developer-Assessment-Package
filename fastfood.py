@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import re
 
+# Function to create MySQL database
 def create_database():
     try:
         conn = msql.connect(host='localhost', user='root', password='')  # provide your username and password
@@ -15,7 +16,7 @@ def create_database():
     except Error as e:
         print("Error while connecting to MySQL", e)
 
-
+# Function to connect to fastfood database
 def create_connection():
     try:
         conn = msql.connect(host='localhost', database='fastfood', user='root', password='')  # provide your username and password
@@ -26,7 +27,7 @@ def create_connection():
         print("Error while connecting to MySQL", e)
         return None
 
-
+# Function to create table in fastfood database
 def create_table(conn):
     try:
         cursor = conn.cursor()
@@ -36,7 +37,7 @@ def create_table(conn):
     except Error as e:
         print("Error while creating the table", e)
 
-
+# Function to insert data into fastfood table
 def insert_data_from_csv(conn, data):
     try:
         cursor = conn.cursor()
@@ -47,7 +48,7 @@ def insert_data_from_csv(conn, data):
     except Error as e:
         print("Error while inserting data into the table", e)
 
-
+# Function to visualize top 5 restaurants with least average carbs
 def visualize_top_restaurants(conn):
     try:
         cursor = conn.cursor()
@@ -97,7 +98,7 @@ def visualize_top_restaurants(conn):
     except Error as e:
         print("Error while visualizing data", e)
 
-
+# Categorize items into different Category and Sub-category
 def categorize_items(conn):
     categories = {}
     categorized_items = []
