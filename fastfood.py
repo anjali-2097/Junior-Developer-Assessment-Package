@@ -4,8 +4,6 @@ from mysql.connector import Error
 import matplotlib.pyplot as plt
 import numpy as np
 import re
-import csv
-
 
 def create_database():
     try:
@@ -90,7 +88,7 @@ def visualize_top_restaurants(conn):
             multiplier += 1
 
         ax.set_ylabel('Average Carbs')
-        ax.set_title('Top 5 Restaurants')
+        ax.set_title('Top 5 Restaurants with Least Average Carbs')
         ax.set_xticks(x + width, restaurants)
         ax.legend(loc='upper left', ncols=4)
         ax.set_ylim(0, 1700)
