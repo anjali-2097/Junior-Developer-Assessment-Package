@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 import pandas as pd
 import mysql.connector as msql
 from mysql.connector import Error
@@ -5,21 +7,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import re
 
-# Function to create MySQL database
-def create_database():
-    try:
-        conn = msql.connect(host='localhost', user='root', password='')  # provide your username and password
-        if conn.is_connected():
-            cursor = conn.cursor()
-            cursor.execute("CREATE DATABASE fastfood")
-            print("Database created successfully")
-    except Error as e:
-        print("Error while connecting to MySQL", e)
+# Load environment variables from .env file
+load_dotenv()
 
 # Function to connect to fastfood database
 def create_connection():
     try:
-        conn = msql.connect(host='localhost', database='fastfood', user='root', password='')  # provide your username and password
+        conn = msql.connect(host=os.getenv("DB_HOST"),port=os.getenv("DB_PORT"), user=os.getenv("DB_USER"), password=os.getenv("DB_PASSWORD"), database=os.getenv("DB_DATABASE"))  # provide your username and password
         if conn.is_connected():
             print("Connected to the database")
             return conn
@@ -42,7 +36,7 @@ def insert_data_from_csv(conn, data):
     try:
         cursor = conn.cursor()
         for i, row in data.iterrows():
-            cursor.execute("INSERT INTO fastfood.fastfood VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (i + 1, row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16]))
+            cursor.execute("INSERT INTO fastfood VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (i + 1, row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16]))
         conn.commit()
         print("Data inserted successfully")
     except Error as e:
@@ -144,7 +138,7 @@ fooddata = pd.read_csv('fastfood.csv', index_col=False, delimiter=',')
 fooddata = fooddata.fillna(0)
 
 # Create database
-create_database()
+#create_database()
 
 # Connect to the database
 conn = create_connection()
